@@ -1,0 +1,24 @@
+body {
+font-family: 'Libre Baskerville', serif;
+}
+
+/* Header Nav */
+.header-nav {
+    border-top: gray solid 1px;
+    border-bottom: gray solid 1px;
+}
+
+/* Card Changes */
+.card{
+    border-radius: 0px;
+}
+
+.card-btn{
+    background-color: gray;
+    color: white;
+    font-family: 'Libre Baskerville', serif;
+
+}
+.card-link {
+    color: gray;
+}

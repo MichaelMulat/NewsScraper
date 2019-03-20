@@ -28,7 +28,7 @@ module.exports = function(app) {
           .children("img")
           .attr("src");
 
-        // console.log(result);
+        console.log(result);
         // Create a new Article using the `result` object built from scraping if the title and link exist
         if (result.title && result.link) {
           db.Article.create(result)

@@ -11,20 +11,23 @@
                         <a class="nav-link" href="/saved">Saved Articles </a>
                     </li>
                 </ul>
+            </div>
+
+            <div class="row">
                 <ul class="col navbar-nav text-right">
                     <li class="nav-item active">
                         <form action="/scrape" method="GET" class="navbar-form navbar-left">
-                            <button class="btn btn-scrape" id="scrape-btn">
+                            <a class="btn btn-scrape" id="scrape-btn">
                                 Scrape Articles
-                            </button>
+                            </a>
                         </form>
                     </li>
                     <li class="nav-item">
                         <form action="/scrape" method="GET" class="navbar-form navbar-left"></form>
-                        <button class="btn btn-clear">
+                        <a class="btn btn-clear">
                             Clear Articles
-                        </button>
-                        </form>
+                            </button>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -32,6 +35,8 @@
     </nav>
 </div>
 <div class="container pt-3 mt-3">
+    
+    
     <div class="card-columns">
         {{#each article}}
         <div class="card" style="width: 18em">

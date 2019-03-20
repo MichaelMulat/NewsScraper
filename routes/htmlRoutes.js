@@ -13,11 +13,11 @@ module.exports = function (app) {
     });
 
     app.get("/saved", function (req, res) {
-        db.Article.find({ saved: true }).populate("notes").exec(function(error, data) {
+        db.Article.find({ saved: true }).populate("note").exec(function(error, data) {
           var hbsObject = {
             article: data
           };
-          // console.log(hbsObject);
+          
           if(error){
               res.send(error)
           } else {
@@ -26,6 +26,8 @@ module.exports = function (app) {
           
         });
     });
+
+    
     // Render 404 page for any unmatched routes
     app.get("*", function (req, res) {
         res.render("404");

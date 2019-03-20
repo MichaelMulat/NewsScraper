@@ -28,7 +28,7 @@ module.exports = function(app) {
           .children("img")
           .attr("src");
 
-        console.log(result);
+        // console.log(result);
         // Create a new Article using the `result` object built from scraping if the title and link exist
         if (result.title && result.link) {
           db.Article.create(result)
@@ -47,6 +47,14 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/api/articles", function(req, res) {
+    db.Article.find({})
+      .populate("note")
+      .then(function(data) {
+        res.json(data);
+      });
+  });
+
   // put route to updated the article to be saved:true
   app.post("/saved/:id", function(req, res) {
     // res.redirect("/")
@@ -63,16 +71,53 @@ module.exports = function(app) {
     );
   });
 
-//   app.post("/saved/notes/:id", function(req, res)){
-//       var newNote = req.body;
-//     db.Note.save()
-//   }
-
-  app.get("/api/articles", function(req, res) {
-    db.Article.find({})
-      .populate("note")
-      .then(function(data) {
-        res.json(data);
+  // Save a note route
+  app.post("/saved/notes/:id", function(req, res) {
+    db.Note.create(req.body)
+      .then(function(dbNote) {
+        console.log(req.params.id, dbNote);
+        //update the Article and push the note id into the array
+        return db.Article.findOneAndUpdate(
+          { _id: req.params.id },
+          { $push: { note: dbNote._id } }
+        );
+      })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
       });
   });
+
+  // Delete a note route
+  app.delete("/notes/:id", function(req, res) {
+    console.log(req.params.id);
+    db.Note.findOneAndDelete({ _id: req.params.id })
+      .then(function(dbNote) {
+        return db.Article.findOneAndUpdate(
+          { note: req.params.id },
+          { $pullAll: [{ note: req.params.id }] }
+        );
+      })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  //Delete Saved Article Route
+  app.delete("/articles/:id", function(req, res) {
+    db.Article.findOneAndDelete({ _id: req.params.id })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  // Clear all Unsaved Articles
 };

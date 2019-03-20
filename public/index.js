@@ -1,4 +1,14 @@
 // Save an Article => set saved to true
+function scrapeArticles(){
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  }).then(function() {
+    location.reload();
+    
+  });
+}
+
 function saveArticle(){
     var articleId = $(this).data("id");
     console.log(articleId);
@@ -54,6 +64,8 @@ function clearAll(){
   
 }
 
+$("#scrape-btn").on("click", scrapeArticles);
+$("#clear-btn").on("click", clearAll);
 $(".save-btn").on("click", saveArticle);
 $(".save-note-btn").on("click", saveNote);
 $(".delete-note-btn").on("click", deleteNote);

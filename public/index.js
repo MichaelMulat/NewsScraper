@@ -14,7 +14,7 @@ function saveArticle(){
     console.log(articleId);
     $.ajax({
         method: "POST",
-        url: "/saved/" + articleId,
+        url: "/api/saved/" + articleId,
     }).then(function () {
         location.reload();
     });
@@ -29,12 +29,12 @@ function saveNote(){
 
     $.ajax({
       method: "POST",
-      url: "/saved/notes/" + articleId,
+      url: "/api/saved/notes/" + articleId,
       data: {
         body: newNote
       }
     }).then(function() {
-      // location.reload();
+      location.reload();
     });
 }
 
@@ -44,7 +44,7 @@ function deleteNote(){
 
   $.ajax({
     method: "DELETE",
-    url: "/notes/" + noteId
+    url: "/api/notes/" + noteId
   }).then(function() {
     location.reload();
   });
@@ -54,20 +54,27 @@ function deleteArticle(){
   var articleId = $(this).attr("data-id-article");
   $.ajax({
     method: "DELETE",
-    url: "/articles/" + articleId
+    url: "/api/articles/" + articleId
   }).then(function() {
     location.reload();
   });
 }
 
 function clearAll(){
-  
+  $.ajax({
+    method: "DELETE",
+    url:"/api/articles"
+  }).then(function () {
+    location.reload();
+  });
 }
 
 $("#scrape-btn").on("click", scrapeArticles);
 $("#clear-btn").on("click", clearAll);
 $(".save-btn").on("click", saveArticle);
+
 $(".save-note-btn").on("click", saveNote);
 $(".delete-note-btn").on("click", deleteNote);
+
 $(".delete-article-btn").on("click", deleteArticle);
 

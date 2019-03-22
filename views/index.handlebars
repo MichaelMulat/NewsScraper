@@ -35,9 +35,10 @@
     </nav>
 </div>
 <div class="container pt-3 mt-3">
-    
-    
+    {{!-- If articles exist --}}
+    {{#if article}}
     <div class="card-columns">
+        
         {{#each article}}
         <div class="card" style="width: 18em">
             <img class="card-img-top" src={{this.image}} alt="Card image cap">
@@ -49,6 +50,10 @@
             </div>
         </div>
         {{/each}}
+        
     </div>
+    {{!-- Or else show these messages --}}
+    {{else}}
+        <h2 class="center">You havent scraped any articles yet!</h2>
+    {{/if}}
 </div>
-
